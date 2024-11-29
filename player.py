@@ -9,6 +9,7 @@ class Person:
         self._class_type = class_type
         self._attack_points = attack_points
         self._defense_points = defense_points
+        self.health_current = self.health_initial
         
     @property
     def name(self):
@@ -44,21 +45,19 @@ class Person:
 
     @property
     def hit_points(self):
-        return self.hits
+        return self._hit_points
     
     @hit_points.setter
     def hit_points(self, value):
-        self.hits = value   
+        self._hit_points = value   
         
     @property
-    def health_current (self):
-        if self.hit_points > 0:
-            return (self.health_initial - self.hit_points)
-        return self.health_initial
+    def health_current(self):
+        return self._health_current
     
-    @health_current .setter
-    def health_current (self, value):
-        self._health_current  = value
+    @health_current.setter
+    def health_current(self, value):
+        self._health_current = value
 
     def list_player(self):
         print(
@@ -66,36 +65,36 @@ class Person:
         )
 
     def attack_opponent(self, opponent_name):
-
-        self.list_player()
-
-        print(
-            f"Attacking with force: {self.attack_points} the opponent ({opponent_name})."
-        )
-
-        dice = random.randrange(1, 6)
-        print()        
-        print(f'Roll the dice: {dice}')
+        dice = random.randrange(1, 6)    
 
         self.attack_force = int(self.attack_points) * dice
-        print(f'Attack force (attack_points: {self.attack_points}) * (dice: {dice}): {self.attack_force}')     
+        print(f'{self.name} - Attack force (attack_points: {self.attack_points}) * (dice: {dice}) = {self.attack_force}')     
         print()
 
     def defense_opponent(self, opponent_name, attack_force_opponent_points):
-        self.list_player()
-
-        print(
-            f"Defending from attack force: {attack_force_opponent_points} the opponent ({opponent_name}) with defense: {self.defense_points}"
-        )
-
-        dice = random.randrange(1, 6)
-        print()        
-        print(f'Roll the dice: {dice}')
+        dice = random.randrange(1, 6)    
 
         self.defense_force = int(self.defense_points) * dice
-        print(f'Defense force (defense_points: {self.defense_points}) * (dice: {dice}): {self.defense_force}')             
+        print(f'{self.name} - Defense force (defense_points: {self.defense_points}) * (dice: {dice}) = {self.defense_force}')             
         print()
+        
+        self.hit_points = attack_force_opponent_points - self.defense_force
 
-    def calculate_hit_points(self, attack_force_player1, defense_force_player2):
-        self.hit_points = attack_force_player1 - defense_force_player2
-        print(f'hit points: {self.hit_points} - current health : {self.health_current }')
+        if self.hit_points > 0:
+            self.health_current = self.health_current - self.hit_points            
+
+        print(f'Attack force ({attack_force_opponent_points}) - Defense Force ({self.defense_force}) = hit points: {self.hit_points}')
+        
+        word = ""
+        if self.hit_points <= 0:
+            word = " not"
+            
+        print(f"{self.name} has{word} suffer damage!")
+        
+        if self.health_current < 0:
+            self.health_current = 0
+            
+        print(f'current health = {self.health_current}')            
+        print()
+    
+
