@@ -60,41 +60,49 @@ class Person:
         self._health_current = value
 
     def list_player(self):
-        print(
-            f"{self.name}, {self.class_type}, attack: {self.attack_points}, defense: {self.defense_points}, life: {self.health_initial}"
-        )
+        print(self.name)
+        print(self.class_type)
+        print(f'attack: {self.attack_points}')
+        print(f'defense: {self.defense_points}')
+        print(f'life: {self.health_initial}')     
+        print()           
 
-    def attack_opponent(self, opponent_name):
+    def attack_opponent(self):
         dice = random.randrange(1, 6)    
 
         self.attack_force = int(self.attack_points) * dice
-        print(f'{self.name} - Attack force (attack_points: {self.attack_points}) * (dice: {dice}) = {self.attack_force}')     
+        
+        print(self.name)
+        print(f'life: {self.health_current}')            
+        print(f'attack points: {self.attack_points}')
+        print(f'attack force: points ({self.attack_points}) * dice ({dice}) = {self.attack_force}')  
         print()
 
-    def defense_opponent(self, opponent_name, attack_force_opponent_points):
+    def defense_opponent(self, attack_force_opponent_points):
         dice = random.randrange(1, 6)    
 
         self.defense_force = int(self.defense_points) * dice
-        print(f'{self.name} - Defense force (defense_points: {self.defense_points}) * (dice: {dice}) = {self.defense_force}')             
-        print()
         
+        print(self.name)
+        print(f'life: {self.health_current}')            
+        print(f'defense points: {self.defense_points}')
+        print(f'defense force: points ({self.defense_points}) * dice ({dice}) = {self.defense_force}')  
+        print()        
+
         self.hit_points = attack_force_opponent_points - self.defense_force
 
         if self.hit_points > 0:
             self.health_current = self.health_current - self.hit_points            
 
-        print(f'Attack force ({attack_force_opponent_points}) - Defense Force ({self.defense_force}) = hit points: {self.hit_points}')
+        print(f'Hit points: attack force ({attack_force_opponent_points}) - defense Force ({self.defense_force}) = {self.hit_points}')
         
-        word = ""
         if self.hit_points <= 0:
-            word = " not"
+            print(f"{self.name} has not suffer damage!")
             
-        print(f"{self.name} has{word} suffer damage!")
-        
         if self.health_current < 0:
             self.health_current = 0
             
-        print(f'current health = {self.health_current}')            
+        print(f'{self.name} current health: {self.health_current}')            
         print()
     
 
