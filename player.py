@@ -9,11 +9,15 @@ class Person:
         self._class_type = class_type
         self._attack_points = attack_points
         self._defense_points = defense_points
-        self.health_current = self.health_initial
+        self.health_current = self.health_initial   
         
     @property
     def name(self):
-        return self._name      
+        return self._name        
+        
+    @property
+    def class_type(self):
+        return self._class_type         
 
     @property
     def attack_points(self):
@@ -22,10 +26,6 @@ class Person:
     @property
     def defense_points(self):
         return self._defense_points
-
-    @property
-    def class_type(self):
-        return self._class_type
     
     @property
     def attack_force(self):
